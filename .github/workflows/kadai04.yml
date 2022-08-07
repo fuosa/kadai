@@ -5,7 +5,7 @@
 
 
 Natural_num(){
-        if expr "$1" : "^[0-9]*$" >&/dev/null;then
+        if expr "$1" : "^[0-9]*$" > &/dev/null;then
                 return 0
         else
                 echo -e "エラー!!"
