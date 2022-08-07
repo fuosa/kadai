@@ -1,0 +1,50 @@
+#!/bin/bash
+
+file_val=/tmp/$$
+  
+
+Escape () {
+        cat $file_val-error
+        rm -f $file_val
+        exit 1
+}
+
+echo "TEST1-1 正常終了"
+./kakunin.sh 5 10 > $file_val-result
+echo "5" >$file_val-ans
+diff $file_val-result $file_val-ans || echo "テスト1-1 エラー!" >> $file_val-error
+
+echo "TEST1-2 正常終了"
+./kakunin.sh 21 14 > $file_val-result
+echo "7" > $file_val-ans
+diff $file_val-result $file_val-ans || echo "テスト1-2 エラー!" >> $file_val-error
+
+echo "TEST2-1: 異常終了(引数なし)"
+./kakunin.sh > $file_val-result
+echo "エラー!" > $file_val-ans
+diff $file_val-result $file_val-ans || echo "テスト2-1 エラー!" >> $file_val-error
+
+echo "TEST2-2: 異常終了(引数1つ)"
+./kakunin.sh 21 > $file_val-result
+echo "エラー!" > $file_val-ans
+diff $file_val-result $file_val-ans || echo "テスト2-2 エラー!" >> $file_val-error
+
+echo "TEST2-3: 異常終了(引数がマイナス)"
+./kakunin.sh -21 > $file_val-result
+echo "エラー！" > $file_val-ans
+diff $file_val-result $file_val-ans || echo "テスト2-3 エラー!" >> $file_val-error
+
+echo "TEST2-4: 異常終了(引数がマイナスの)"
+./kakunin.sh 21 -1 > $file_val-result
+echo "エラー!" > $file_val-ans
+diff $file_val-result $file_val-ans || echo "error in test2-4" >> $tmp-error
+
+echo "teat2-5: 異常終了(引数が文字列)"
+./kakunin.sh "abc" > $file_val-result
+echo "エラー!" > $file_val-ans
+diff $file_val-result $file_val-ans || echo "error in test2-5" >> $file_val-error
+
+
+if [ -f $file_val-error ]; then
+    Escape
+fi
