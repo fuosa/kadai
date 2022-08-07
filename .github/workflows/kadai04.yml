@@ -1,0 +1,30 @@
+#!/bin/bash
+  
+
+
+
+
+Natural_num(){
+        if expr "$1" : "^[0-9]*$" >&/dev/null;then
+                return 0
+        else
+                echo -e "エラー!!"
+                exit 1
+        fi
+
+}
+
+GCF(){
+        while [ ! 0 -eq "$2" ]; do
+                set -- "$2" "`expr "$1" % "$2"`"
+        done
+        echo"$1"
+
+}
+
+
+Natural_num $1
+Natural_num $2
+
+GCF $1 $2
+
